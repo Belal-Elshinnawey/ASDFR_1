@@ -1,0 +1,22 @@
+{
+  "configurations": [
+    {
+      "name": "Linux",
+      "includePath": [
+        "./src/**/include/**",
+        "./install/**/include/**",
+        "/opt/ros/jazzy/include/**",
+        "/opt/ros/jazzy/include",
+        "/usr/include/**"
+        // ,"/usr/include/opencv4/opencv2/**",
+        // "/usr/include/opencv4/**"
+      ],
+      "defines": [],
+      "compilerPath": "/usr/bin/g++",
+      "cStandard": "c11",
+      "cppStandard": "c++17", // c++14 gives errors for string_view
+      "intelliSenseMode": "gcc-x64"
+    }
+  ],
+  "version": 4
+}

@@ -1,0 +1,90 @@
+compile and link
+g++ a.cpp b.cpp -o C -pthread -lpthread
+
+compile only
+g++ -c a.cpp b.cpp -pthread -lpthread
+
+link only
+g++ a.o b.o -o C -pthread -lpthread
+
+start multi-pass
+multipass launch --name foo
+
+run a commnad in a vm called foo
+multipass exec foo -- lsb_release -a
+
+list instances
+multipass list
+
+stop/start an instance
+multipass stop foo bar
+multipass start foo
+
+cleanup
+multipass delete bar
+multipass purge
+
+creat multipass instance
+multipass launch ros2-jazzy --name jazzy --cpus 4 --memory 8G --disk 40G
+
+test commands for multipass
+multipass exec jazzy -- echo "Hello from inside the multipass instance!"
+multipass exec jazzy -- ls /home
+
+make a dir for your login name on the multipass instance
+multipass exec jazzy -- mkdir login_name
+
+mount command
+multipass mount /home/login_name/ jazzy:/home/ubuntu/login_name
+
+to find the ip address of the instance
+multipass list
+
+start a multipass shell
+multipass shell jazzy
+
+to exit the shell
+exit
+
+to copy the ssh key from your host machine  to jazzy, make sure the key exists first
+1- cat the ssh pub key in your own machine
+cat ~/.ssh/keyname.pub
+2- copy the key from termanal using Ctrl+Shift+C
+3- start a mu shell on the vm
+multipass shell jazzy
+4- create a key.pub file in the vm
+nano key.pub
+5- paste the key in the file using Ctrl+Shift+V
+6- save the file using Ctrl+O
+7- exit the nano editor using Ctrl+X
+8- add the key to the authorized_keys file
+cat key.pub >> ~/.ssh/authorized_keys
+9- delete the pub key file
+rm key.pub
+try to connect to the vm now using the remote dev extension in vscode.
+
+to reopen the vscode window on the vm with a different workspace
+code /home/ubuntu/ASDFR/<workspace_name>
+Do not create files outside your mouting point.
+
+
+for ubunu hosts, to show grahpics from within the vm
+1- install x11-apps
+sudo apt install xorg
+2- edit the ets/ssh/sshd_config file in the vm and add
+X11Forwarding yes
+X11DisplayOffset 10
+X11UseLocalhost yes
+3- restart the ssh service
+sudo systemctl restart ssh
+4- open a terminal on the host vm and ssh to the vm using the -X option
+ssh -X ubuntu@vm-ip-address
+5- run the command to produce the graphics
+
+
+runing the imageshow 
+ros2 run image_tools showimage --ros-args -p depth:=1 -p history:=keep_last
+
+
+source install/setup.bash
+ros2 run cam2image_vm2ros cam2image --ros-args --params-file src/cam2image_vm2ros/config/cam2image.yaml
