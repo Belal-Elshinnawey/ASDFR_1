@@ -29,6 +29,7 @@ namespace object_locator {
             msg_out.y = std::get<1>(location);
             msg_out.z = 0.0; // Assuming a 2D position, z is set to 0
             
+            RCLCPP_INFO(this->get_logger(), "Publishing image_location x = %.2f \t y = %.2f", static_cast<double>(msg_out.x), static_cast<double>(msg_out.y));
             pub_->publish(msg_out);
         };
     
@@ -85,9 +86,11 @@ namespace object_locator {
 
     std::tuple<int, int> ObjectLocator::find_object_position(cv::Mat &image) {
         cv::Mat processed_image = image;
+
         // For brightness detection, convert the image to greyscale.
         if (act_on_ == "brightness") {
             greyscale_image(processed_image);
+            
         }
         apply_threshold(processed_image);
         return find_center_of_gravity(processed_image);

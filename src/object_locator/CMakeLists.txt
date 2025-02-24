@@ -49,7 +49,7 @@ target_link_libraries(${PROJECT_NAME}
   cv_bridge::cv_bridge 
   )
 
-rclcpp_components_register_node(${PROJECT_NAME} PLUGIN "object_locator" EXECUTABLE object_locator_node)
+  rclcpp_components_register_node(${PROJECT_NAME} PLUGIN "object_locator::ObjectLocator" EXECUTABLE object_locator_node)
 
 install(
   TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
