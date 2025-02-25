@@ -73,9 +73,17 @@ void BrightnessCalculator::initialize() {
       try {
           cv_ptr = cv_bridge::toCvCopy(msg,
           sensor_msgs::image_encodings::BGR8); cv::cvtColor(cv_ptr->image, hsv_image, cv::COLOR_BGR2HSV);
-          cv::Scalar lower_green(35, 40, 40);  // Lower bound for green (H, S, V) 
-          cv::Scalar upper_green(90, 220, 255);  // Upper bound for green (H, S, V) 
+          cv::Scalar lower_green(27, brightness_threshold_, brightness_threshold_);  // Lower bound for green (H, S, V) 
+          cv::Scalar upper_green(85, 255, 255);  // Upper bound for green (H, S, V) 
           cv::inRange(hsv_image, lower_green, upper_green, green_mask);
+          cv::Mat labels, stats, centroids;
+          int num_components = cv::connectedComponentsWithStats(green_mask, labels, stats, centroids);
+          int min_area = 500;
+          for (int i = 1; i < num_components; ++i) {
+              if (stats.at<int>(i, cv::CC_STAT_AREA) < min_area) {
+                  green_mask.setTo(0, labels == i);
+              }
+          }
           cv_bridge::CvImage green_mask_msg;
           green_mask_msg.header = msg->header;
           green_mask_msg.encoding = sensor_msgs::image_encodings::MONO8;
