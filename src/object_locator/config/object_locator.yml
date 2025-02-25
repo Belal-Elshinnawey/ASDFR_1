@@ -3,7 +3,7 @@
     act_on: "brightness"
     history: "keep-last"
     depth: "1"
-    brightness_threshold: "20"
+    brightness_threshold: "100"
     red_threshold: "0"
     blue_threshold: "0"
     green_threshold: "200"

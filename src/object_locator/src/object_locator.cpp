@@ -30,6 +30,14 @@ namespace object_locator {
             msg_out.z = 0.0; // Assuming a 2D position, z is set to 0
             
             RCLCPP_INFO(this->get_logger(), "Publishing image_location x = %.2f \t y = %.2f", static_cast<double>(msg_out.x), static_cast<double>(msg_out.y));
+
+            // To see the location on the image it's identifying
+            if (msg_out.x >= 0 && msg_out.y >= 0) {
+                cv::circle(cv_ptr->image, cv::Point(msg_out.x, msg_out.y), 5, cv::Scalar(0, 255, 0), -1);
+            }
+            cv::imshow("Detected Object", cv_ptr->image);
+            cv::waitKey(1);
+
             pub_->publish(msg_out);
         };
     
@@ -40,10 +48,12 @@ namespace object_locator {
         act_on_ = declare_parameter("act_on", "brightness");
         history_ = declare_parameter("history", "keep_last");
         depth_ = declare_parameter("depth", 1);
-        brightness_threshold = declare_parameter("brightness_threshold", 20);
+        brightness_threshold = declare_parameter("brightness_threshold", 100);
         red_threshold = declare_parameter("red_threshold", 0);
         blue_threshold = declare_parameter("blue_threshold", 0);
         green_threshold = declare_parameter("green_threshold", 250);
+
+        RCLCPP_INFO(this->get_logger(), "brightness threshold: %ld", this->brightness_threshold);
     }
 
     cv::Mat &ObjectLocator::greyscale_image(cv::Mat &image) {
@@ -90,9 +100,10 @@ namespace object_locator {
         // For brightness detection, convert the image to greyscale.
         if (act_on_ == "brightness") {
             greyscale_image(processed_image);
-            
         }
         apply_threshold(processed_image);
+        // cv::imshow("Thresholded Image", processed_image);
+        // cv::waitKey(1);
         return find_center_of_gravity(processed_image);
     }
 
