@@ -78,17 +78,12 @@ void BrightnessCalculator::initialize() {
           cv::inRange(hsv_image, lower_green, upper_green, green_mask);
           cv::Mat labels, stats, centroids;
           int num_components = cv::connectedComponentsWithStats(green_mask, labels, stats, centroids);
-          // Define the minimum area threshold for green objects
-          int min_area = 500;  // Adjust this value based on your requirements
-
-          // Iterate through the connected components and remove small objects
+          int min_area = 500;
           for (int i = 1; i < num_components; ++i) {
               if (stats.at<int>(i, cv::CC_STAT_AREA) < min_area) {
                   green_mask.setTo(0, labels == i);
               }
           }
-
-
           cv_bridge::CvImage green_mask_msg;
           green_mask_msg.header = msg->header;
           green_mask_msg.encoding = sensor_msgs::image_encodings::MONO8;
