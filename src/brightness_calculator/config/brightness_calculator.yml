@@ -5,4 +5,6 @@
     durability: "volatile"
     reliability: "reliable"
     publish_mode: "continuous"
+    show_camera: true
+
     depth: 10
