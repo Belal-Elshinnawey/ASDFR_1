@@ -1,8 +1,9 @@
 /brightness_calculator:
   ros__parameters:
-    threshold: 50
+    threshold: 20
     history: "keep_last"
     durability: "volatile"
     reliability: "reliable"
     publish_mode: "continuous"
-    depth: 10
+    show_camera: true
+    depth: 1
