@@ -1,4 +1,4 @@
 /object_identifier:
   ros__parameters:
     history: "keep_last"
-    depth: "1"
+    depth: 1

@@ -2,7 +2,7 @@
   ros__parameters:
     act_on: "brightness"
     history: "keep-last"
-    depth: "1"
+    depth: 1
     brightness_threshold: "100"
     red_threshold: "0"
     blue_threshold: "0"

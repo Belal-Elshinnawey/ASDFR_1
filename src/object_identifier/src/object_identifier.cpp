@@ -12,7 +12,9 @@ namespace object_identifier {
         history_ == "keep_all" ? qos.keep_all() : qos.keep_last(depth_);
 
         pub_ = this->create_publisher<geometry_msgs::msg::Point>("object_position", qos);
-
+        frame_size_publisher_ = this->create_publisher<geometry_msgs::msg::Vector3>("frame_size", 10);
+        frame_width_ = 0;
+        frame_height_ = 0;
         auto image_callback = [this](sensor_msgs::msg::Image::ConstSharedPtr msg) -> void {
             cv_bridge::CvImagePtr cv_ptr;
             try {
@@ -21,7 +23,13 @@ namespace object_identifier {
                 RCLCPP_ERROR(this->get_logger(), "cv_bridge exception: %s", e.what());
                 return;
             }
-
+            int new_frame_width = cv_ptr->image.cols;
+            int new_frame_height = cv_ptr->image.rows;
+            if (new_frame_width != frame_width_ || new_frame_height != frame_height_) {
+                frame_width_ = new_frame_width;
+                frame_height_ = new_frame_height;
+                publish_frame_size();
+            }
             std::tuple<int, int> location = this->find_center_of_gravity(cv_ptr->image);
             geometry_msgs::msg::Point msg_out;
             msg_out.x = std::get<0>(location);
@@ -40,6 +48,14 @@ namespace object_identifier {
         };
         sub_ = create_subscription<sensor_msgs::msg::Image>("bw_image", qos, image_callback);
 
+    }
+
+    void ObjectIdentifier::publish_frame_size() {
+        geometry_msgs::msg::Vector3 frame_size_msg;
+        frame_size_msg.x = frame_width_;
+        frame_size_msg.y = frame_height_;
+        frame_size_msg.z = 0.0;
+        frame_size_publisher_->publish(frame_size_msg);
     }
 
     void ObjectIdentifier::parse_parameters() {
