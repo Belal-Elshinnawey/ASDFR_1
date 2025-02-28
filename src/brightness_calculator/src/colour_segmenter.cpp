@@ -19,29 +19,28 @@ void ColourSegmenter::initialize() {
 
   auto filter_callback = [this](sensor_msgs::msg::Image::ConstSharedPtr msg) -> void {
     cv_bridge::CvImagePtr cv_ptr;
-    cv::Mat hsv_image, green_mask;
+    cv::Mat hsv_image, color_mask;
     
     try {
       cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
       cv::cvtColor(cv_ptr->image, hsv_image, cv::COLOR_BGR2HSV);
 
-      cv::Scalar lower_green(27, brightness_threshold_, brightness_threshold_);
-      cv::Scalar upper_green(85, 255, 255);
-      cv::inRange(hsv_image, lower_green, upper_green, green_mask);
+      cv::Scalar lower_bound(lower_hue_, lower_saturation_, lower_value_);
+      cv::Scalar upper_bound(upper_hue_, upper_saturation_, upper_value_);
+      cv::inRange(hsv_image, lower_bound, upper_bound, color_mask);
 
-      cv_bridge::CvImage green_mask_msg;
-      green_mask_msg.header = msg->header;
-      green_mask_msg.encoding = sensor_msgs::image_encodings::MONO8;
-      green_mask_msg.image = green_mask;
-      pub_filter_->publish(*green_mask_msg.toImageMsg());
-
+      cv_bridge::CvImage color_mask_msg;
+      color_mask_msg.header = msg->header;
+      color_mask_msg.encoding = sensor_msgs::image_encodings::MONO8;
+      color_mask_msg.image = color_mask;
+      pub_filter_->publish(*color_mask_msg.toImageMsg());
     } catch (cv_bridge::Exception &e) {
       RCLCPP_ERROR(this->get_logger(), "cv_bridge exception: %s", e.what());
       return;
     }
 
     if (show_camera_) {
-      cv::imshow("Green Mask", green_mask);
+      cv::imshow(colour_name_ + " Mask", color_mask);
       cv::waitKey(1);
     }
   };
@@ -50,7 +49,14 @@ void ColourSegmenter::initialize() {
 }
 
 void ColourSegmenter::parse_parameters() {
+  colour_name_ = this->declare_parameter("colour_name", "green");
   brightness_threshold_ = this->declare_parameter("brightness_threshold", 50);
+  lower_hue_ = this->declare_parameter("lower_hue", 27);
+  upper_hue_ = this->declare_parameter("upper_hue", 85);
+  lower_saturation_ = this->declare_parameter("lower_saturation", brightness_threshold_);
+  upper_saturation_ = this->declare_parameter("upper_saturation", 255);
+  lower_value_ = this->declare_parameter("lower_value", brightness_threshold_);
+  upper_value_ = this->declare_parameter("upper_value", 255);
   reliability_ = this->declare_parameter("reliability", "reliable");
   durability_ = this->declare_parameter("durability", "volatile");
   history_ = this->declare_parameter("history", "keep_last");
