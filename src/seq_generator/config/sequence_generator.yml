@@ -1,0 +1,3 @@
+/sequence_generator:
+  ros__parameters:
+    test_mode: false
