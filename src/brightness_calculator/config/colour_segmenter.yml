@@ -1,8 +1,8 @@
-/brightness_calculator:
+/colour_segmenter:
   ros__parameters:
     history: "keep_last"
-    depth: 1
     durability: "volatile"
     reliability: "reliable"
-    threshold: 20
-    
+    depth: 1
+    publish_mode: "continuous"
+    show_camera: true
