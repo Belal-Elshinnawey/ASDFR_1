@@ -2,7 +2,7 @@
 <package format="2">
     <name>brightness_calculator</name>
     <version>0.0.1</version>
-    <description>The brightness_calculator package</description>
+    <description>The brightness_calculator package. Checks for certain colours in webcam image, and contains a node to log whether or not it is bright. Done simultanously for efficiency</description>
 
     <maintainer email="belalshinnawey@student.utwente.nl">Belal ELshinnawey</maintainer>
     <license>BSD</license>
