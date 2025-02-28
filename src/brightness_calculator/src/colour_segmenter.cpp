@@ -49,7 +49,7 @@ void ColourSegmenter::initialize() {
 }
 
 void ColourSegmenter::parse_parameters() {
-  colour_name_ = this->declare_parameter("colour_name", "green");
+  colour_name_ = this->declare_parameter("colour_name", "Green");
   brightness_threshold_ = this->declare_parameter("brightness_threshold", 50);
   lower_hue_ = this->declare_parameter("lower_hue", 27);
   upper_hue_ = this->declare_parameter("upper_hue", 85);
