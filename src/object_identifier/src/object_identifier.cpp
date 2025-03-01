@@ -23,18 +23,16 @@ namespace object_identifier {
                 RCLCPP_ERROR(this->get_logger(), "cv_bridge exception: %s", e.what());
                 return;
             }
-            int new_frame_width = cv_ptr->image.cols;
-            int new_frame_height = cv_ptr->image.rows;
-            if (new_frame_width != frame_width_ || new_frame_height != frame_height_) {
-                frame_width_ = new_frame_width;
-                frame_height_ = new_frame_height;
-                publish_frame_size();
-            }
+
+            frame_width_ = cv_ptr->image.cols;
+            frame_height_ =  cv_ptr->image.rows;
+
             std::tuple<int, int> location = this->find_center_of_gravity(cv_ptr->image);
             geometry_msgs::msg::Point msg_out;
             msg_out.x = std::get<0>(location);
             msg_out.y = std::get<1>(location);
-            msg_out.z = 0.0;
+            // hay, why not?
+            msg_out.z = frame_height_ + (frame_width_/1000);
 
             RCLCPP_INFO(this->get_logger(), "Publishing image_location x = %.2f \t y = %.2f", static_cast<double>(msg_out.x), static_cast<double>(msg_out.y));
 
