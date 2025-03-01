@@ -79,22 +79,22 @@ void SequenceGenerator::robot_pose_callback(const geometry_msgs::msg::PoseStampe
         double elapsed_time = (current_time.tv_sec - test_mode_start_time.tv_sec) +
                     (current_time.tv_nsec - test_mode_start_time.tv_nsec) / 1e9;
         if (elapsed_time < 5) {
-            // RCLCPP_INFO(this->get_logger(), "Elapsed time is less than 5 seconds.");
+            RCLCPP_INFO(this->get_logger(), "0,1");
             publish_twist_message(0, 1);
         } else if (elapsed_time < 10) {
-            // RCLCPP_INFO(this->get_logger(), "Elapsed time is less than 10 seconds.");
+            RCLCPP_INFO(this->get_logger(), "0,-1");
             publish_twist_message(0, -1);
         } else if (elapsed_time < 15) {
-            // RCLCPP_INFO(this->get_logger(), "Elapsed time is less than 15 seconds.");
+            RCLCPP_INFO(this->get_logger(), "1,0");
             publish_twist_message(1, 0);
         }else if (elapsed_time < 20) {
-            // RCLCPP_INFO(this->get_logger(), "Elapsed time is less than 20 seconds.");
+            RCLCPP_INFO(this->get_logger(), "-1,0");
             publish_twist_message(-1, 0);
         }else if (elapsed_time < 25) {
-            // RCLCPP_INFO(this->get_logger(), "Elapsed time is less than 25 seconds.");
+            RCLCPP_INFO(this->get_logger(), "1,1");
             publish_twist_message(1, 1);
         }  else {
-            // RCLCPP_INFO(this->get_logger(), "Elapsed time is greater than or equal to 20 seconds.");
+            RCLCPP_INFO(this->get_logger(), "0,0");
             publish_twist_message(0, 0);
             test_mode_start_time = current_time;
         }
@@ -104,7 +104,6 @@ void SequenceGenerator::robot_pose_callback(const geometry_msgs::msg::PoseStampe
             return;
         }
         RCLCPP_INFO(this->get_logger(), "Frame width: %f", frame_width_);
-        double tau = 0.001;
         double x_error  = (object_position_x_ - (frame_width_ /2));
         double z_error  = x_error > 0 ? -1: 1; 
         double x_distance = abs(object_position_y_ - (frame_height_ /2)) > 0.1 ? 0.5 : 0;
