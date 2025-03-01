@@ -68,3 +68,8 @@ ament_export_targets(${PROJECT_NAME})
 ament_export_dependencies(rclcpp_components cv_bridge)
 
 ament_package()
+
+
+install(DIRECTORY launch/
+  DESTINATION share/${PROJECT_NAME}/launch
+)
