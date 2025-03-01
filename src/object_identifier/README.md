@@ -1,0 +1,1 @@
+ros2 run object_identifier object_identifier_node --ros-args --params-file src/object_identifier/config/object_identifier.yml

@@ -29,3 +29,5 @@ Core components:
         dynamics_timer_callback(): Calls and runs the model every timestep
         webcam_topic_callback(): Ingests and passes on webcam image stream
         CreateCVSubimage(): Creates sub-image which is then published on /output/moving_camera
+
+ros2 run relbot_simulator relbot_simulator  --ros-args -p use_twist_cmd:=true
