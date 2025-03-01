@@ -93,6 +93,8 @@ ros2 run cam2image_vm2ros cam2image --ros-args --params-file src/cam2image_vm2ro
 
 ros2 run brightness_calculator brightness_calculator_node --ros-args --params-file src/brightness_calculator/config/brightness_calculator.yml
 
+ros2 run brightness_calculator colour_segmenter_node --ros-args --params-file src/brightness_calculator/config/colour_segmenter.yml
+
 ros2 run object_identifier object_identifier_node --ros-args --params-file src/object_identifier/config/object_identifier.yml
 
 ros2 run object_locator object_locator_node --ros-args --params-file src/object_locator/config/object_locator.yml

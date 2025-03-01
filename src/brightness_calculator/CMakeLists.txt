@@ -21,7 +21,9 @@ find_package(OpenCV REQUIRED COMPONENTS core highgui imgcodecs imgproc videoio)
 
 add_library(${PROJECT_NAME} SHARED
     src/brightness_calculator.cpp
+    src/colour_segmenter.cpp
 )
+
 target_compile_definitions(${PROJECT_NAME}
   PRIVATE "IMAGE_TOOLS_BUILDING_DLL")
 target_include_directories(${PROJECT_NAME} PUBLIC
@@ -37,6 +39,7 @@ target_link_libraries(${PROJECT_NAME}
   )
 
 rclcpp_components_register_node(${PROJECT_NAME} PLUGIN "brightness_calculator::BrightnessCalculator" EXECUTABLE brightness_calculator_node)
+rclcpp_components_register_node(${PROJECT_NAME} PLUGIN "brightness_calculator::ColourSegmenter" EXECUTABLE colour_segmenter_node)
 
 install(
   TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
