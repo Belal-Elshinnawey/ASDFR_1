@@ -15,3 +15,4 @@
     lower_value: 50
     upper_value: 255
     image_source_topic: "/output/moving_camera"
+

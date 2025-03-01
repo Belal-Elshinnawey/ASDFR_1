@@ -14,6 +14,7 @@ example_interfaces::msg::Float64 SequenceGenerator::create_float64_msg(double va
     msg.data = value;
     return msg;
 }
+
 void SequenceGenerator::initialize() {
     setpoint_left_ = 0;
     setpoint_right_ = 0;
@@ -25,6 +26,7 @@ void SequenceGenerator::initialize() {
     twist_msg.linear.x = 0.0;
     twist_msg.angular.z = 0.0;
     twist_publisher_->publish(twist_msg);
+
     point_subscriber_ = this->create_subscription<geometry_msgs::msg::PointStamped>(
         "/output/camera_position", 10, std::bind(&SequenceGenerator::camera_position_callback, this, std::placeholders::_1));
     pose_subscriber_ = this->create_subscription<geometry_msgs::msg::PoseStamped>(
@@ -44,6 +46,9 @@ void SequenceGenerator::publish_twist_message(double x, double z) {
 
 void SequenceGenerator::point_callback(const geometry_msgs::msg::Point::SharedPtr msg) {
     // RCLCPP_INFO(this->get_logger(), "Received Point: [x: %f, y: %f]", msg->x, msg->y);
+
+  
+  
     if(test_mode_){
         return;
     }
@@ -53,6 +58,7 @@ void SequenceGenerator::point_callback(const geometry_msgs::msg::Point::SharedPt
     // frame_height_ = static_cast<int>(msg->z);
     // frame_width_ = static_cast<int>((msg->z - frame_height_)  * 1000);
     frame_width_ = std::modf(msg->z, &frame_height_) *1000;
+
 }
 
 
@@ -103,6 +109,7 @@ void SequenceGenerator::robot_pose_callback(const geometry_msgs::msg::PoseStampe
         double z_error  = x_error > 0 ? -1: 1; 
         double x_distance = abs(object_position_y_ - (frame_height_ /2)) > 0.1 ? 0.5 : 0;
         publish_twist_message(x_distance, z_error);
+
     }
 }
 
@@ -113,5 +120,4 @@ void SequenceGenerator::parse_parameters() {
 }  // namespace sequence_generator
 
 RCLCPP_COMPONENTS_REGISTER_NODE(sequence_generator::SequenceGenerator)
-
 

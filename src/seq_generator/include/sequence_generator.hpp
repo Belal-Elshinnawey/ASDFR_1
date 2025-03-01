@@ -13,6 +13,7 @@
 #include "geometry_msgs/msg/twist.hpp"
 
 
+
 namespace sequence_generator {
 class SequenceGenerator : public rclcpp::Node {
  public:
@@ -46,6 +47,7 @@ class SequenceGenerator : public rclcpp::Node {
     void point_callback(const geometry_msgs::msg::Point::SharedPtr msg);
     void frame_size_callback(const geometry_msgs::msg::Vector3::SharedPtr msg);
     void publish_twist_message(double x, double z);
+
 };
 
 }  // namespace brightness_calculator
