@@ -10,6 +10,8 @@
 #include "geometry_msgs/msg/pose_stamped.hpp"
 #include <ctime>
 #include "geometry_msgs/msg/vector3.hpp"
+#include "geometry_msgs/msg/twist.hpp"
+
 
 
 namespace sequence_generator {
@@ -30,6 +32,8 @@ class SequenceGenerator : public rclcpp::Node {
     timespec test_mode_start_time;
     rclcpp::Publisher<example_interfaces::msg::Float64>::SharedPtr left_publisher_;
     rclcpp::Publisher<example_interfaces::msg::Float64>::SharedPtr right_publisher_;
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr twist_publisher_;  
+
     void initialize();
     void parse_parameters();
     example_interfaces::msg::Float64 create_float64_msg(double value);
@@ -42,6 +46,7 @@ class SequenceGenerator : public rclcpp::Node {
     void robot_pose_callback(const geometry_msgs::msg::PoseStamped::SharedPtr msg);
     void point_callback(const geometry_msgs::msg::Point::SharedPtr msg);
     void frame_size_callback(const geometry_msgs::msg::Vector3::SharedPtr msg);
+    void publish_twist_message(double x, double z);
 
 };
 

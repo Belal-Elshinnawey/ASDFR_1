@@ -8,7 +8,7 @@
 #include "geometry_msgs/msg/point.hpp"
 #include "sensor_msgs/image_encodings.hpp"
 #include "sensor_msgs/msg/image.hpp"
-
+#include "geometry_msgs/msg/vector3.hpp"
 #include <tuple>
 #include <opencv2/opencv.hpp>
 #include "cv_bridge/cv_bridge.hpp"
@@ -29,6 +29,10 @@ namespace object_identifier {
         
         rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr sub_;
         rclcpp::Publisher<geometry_msgs::msg::Point>::SharedPtr pub_;
+        rclcpp::Publisher<geometry_msgs::msg::Vector3>::SharedPtr frame_size_publisher_;
+        void publish_frame_size();
+        double frame_width_;
+        double frame_height_;
 
     };
 } 

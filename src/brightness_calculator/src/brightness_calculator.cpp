@@ -53,6 +53,7 @@ void BrightnessCalculator::initialize() {
 
 void BrightnessCalculator::parse_parameters() {
   brightness_threshold_ = this->declare_parameter("brightness_threshold", 50);
+  image_source_topic_ = this->declare_parameter("image_source_topic", "image");
   reliability_ = this->declare_parameter("reliability", "reliable");
   durability_ = this->declare_parameter("durability", "volatile");
   history_ = this->declare_parameter("history", "keep_last");

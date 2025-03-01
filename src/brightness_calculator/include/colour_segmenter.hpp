@@ -3,6 +3,9 @@
 
 #include <sstream>
 
+#include <boost/asio.hpp>
+
+
 #include <opencv2/opencv.hpp>
 #include "cv_bridge/cv_bridge.hpp"
 #include "rclcpp/rclcpp.hpp"
@@ -26,6 +29,9 @@ class ColourSegmenter : public rclcpp::Node {
   bool show_camera_;
 
   std::string colour_name_;
+
+  std::string image_source_topic_;
+
   int32_t brightness_threshold_;
   uint32_t lower_hue_;
   uint32_t upper_hue_;

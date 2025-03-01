@@ -45,12 +45,15 @@ void ColourSegmenter::initialize() {
     }
   };
 
-  sub_filter_ = create_subscription<sensor_msgs::msg::Image>("image", filter_qos, filter_callback);
+  sub_filter_ = create_subscription<sensor_msgs::msg::Image>(image_source_topic_, filter_qos, filter_callback);
+
 }
 
 void ColourSegmenter::parse_parameters() {
   colour_name_ = this->declare_parameter("colour_name", "Green");
   brightness_threshold_ = this->declare_parameter("brightness_threshold", 50);
+  image_source_topic_ = this->declare_parameter("image_source_topic", "image");
+
   lower_hue_ = this->declare_parameter("lower_hue", 27);
   upper_hue_ = this->declare_parameter("upper_hue", 85);
   lower_saturation_ = this->declare_parameter("lower_saturation", brightness_threshold_);
@@ -67,3 +70,4 @@ void ColourSegmenter::parse_parameters() {
 }  // namespace brightness_calculator
 
 RCLCPP_COMPONENTS_REGISTER_NODE(brightness_calculator::ColourSegmenter)
+
