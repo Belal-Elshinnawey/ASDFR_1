@@ -102,9 +102,9 @@ void BrightnessCalculator::initialize() {
   };
   // ###################################End of Callbacks############################################
   sub_brightness_ = create_subscription<sensor_msgs::msg::Image>(
-      "image", brightness_q, image_callback);
+      image_source_topic_, brightness_q, image_callback);
   sub_filter_ = sub_brightness_ = create_subscription<sensor_msgs::msg::Image>(
-      "image", brightness_q, filter_callback);
+      image_source_topic_, brightness_q, filter_callback);
 }
 
 void BrightnessCalculator::parse_parameters() {
@@ -113,6 +113,7 @@ void BrightnessCalculator::parse_parameters() {
   durability_ = this->declare_parameter("durability", "volatile");
   history_ = this->declare_parameter("history", "keep_last");
   depth_ = this->declare_parameter("depth", 10);
+  image_source_topic_ = this->declare_parameter("image_source_topic", "image");
   publish_mode_ =
       (this->declare_parameter("publish_mode", "continuous") == "on_change")
           ? PublishMode::ON_CHANGE

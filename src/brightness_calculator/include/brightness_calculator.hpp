@@ -29,6 +29,7 @@ class BrightnessCalculator : public rclcpp::Node {
   std::string durability_;
   std::string history_;
   size_t depth_;
+  std::string image_source_topic_;
   enum PublishMode { CONTINUOUS, ON_CHANGE };
   PublishMode publish_mode_;
   bool show_camera_;

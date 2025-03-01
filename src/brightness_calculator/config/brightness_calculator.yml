@@ -7,3 +7,5 @@
     publish_mode: "continuous"
     show_camera: true
     depth: 1
+    image_source_topic: "/output/moving_camera"
+

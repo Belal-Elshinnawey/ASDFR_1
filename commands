@@ -99,3 +99,6 @@ ros2 run object_locator object_locator_node --ros-args --params-file src/object_
 
 ros2 run sequence_generator sequence_generator_node --ros-args --params-file src/seq_generator/config/sequence_generator.yml
 
+ros2 run relbot_simulator relbot_simulator  --ros-args -p use_twist_cmd:=true
+
+
