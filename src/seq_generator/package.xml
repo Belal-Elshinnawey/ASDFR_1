@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-    <name>brightness_calculator</name>
+    <name>sequence_generator</name>
     <version>0.0.1</version>
-    <description>The brightness_calculator package. Checks for certain colours in webcam image, and contains a node to log whether or not it is bright. Done simultanously for efficiency</description>
+    <description>The sequence_generator package</description>
 
     <maintainer email="belalshinnawey@student.utwente.nl">Belal ELshinnawey</maintainer>
     <license>BSD</license>
